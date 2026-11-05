@@ -1,8 +1,10 @@
+
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
     public string itemId = "ITEM-001";
+    public ulong tokenId = 1;
     public string itemName = "Ancient Sword";
     public string rarity = "Rare";
     public string description = "An ancient sword found in the ruins.";
@@ -16,7 +18,16 @@ public class ItemPickup : MonoBehaviour
 
             if (inventory != null)
             {
-                inventory.AddItem(itemId, itemName, rarity, description, owner);
+                GameItem item = new GameItem(
+                    itemId,
+                    tokenId,
+                    itemName,
+                    rarity,
+                    description,
+                    owner
+                );
+
+                inventory.AddItem(item);
                 Destroy(gameObject);
             }
         }

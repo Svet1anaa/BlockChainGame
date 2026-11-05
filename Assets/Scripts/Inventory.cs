@@ -1,36 +1,44 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class Inventory : MonoBehaviour
 {
-    private List<string> items = new List<string>();
+    private List<GameItem> items = new List<GameItem>();
 
     public TextMeshProUGUI inventoryText;
 
-    public void AddItem(string itemId, string itemName, string rarity, string description, string owner)
+    public void AddItem(GameItem item)
     {
-        string item = itemId + ": " + itemName + " [" + rarity + "]";
-
         items.Add(item);
 
         UpdateUI();
 
-        Debug.Log("Added to inventory: " + itemId);
-        Debug.Log("Name: " + itemName);
-        Debug.Log("Rarity: " + rarity);
-        Debug.Log("Description: " + description);
-        Debug.Log("Owner: " + owner);
+        Debug.Log("Added to inventory: " + item.itemId);
+        Debug.Log("Token ID: " + item.tokenId);
+        Debug.Log("Name: " + item.itemName);
+        Debug.Log("Rarity: " + item.rarity);
+        Debug.Log("Description: " + item.description);
+        Debug.Log("Owner: " + item.owner);
         Debug.Log("Inventory items: " + items.Count);
     }
 
     private void UpdateUI()
     {
+        if (inventoryText == null)
+        {
+            Debug.LogWarning("Inventory Text is not assigned!");
+            return;
+        }
+
         inventoryText.text = "Inventory\n";
 
-        foreach (string item in items)
+        foreach (GameItem item in items)
         {
-            inventoryText.text += "- " + item + "\n";
+            inventoryText.text +=
+                "- " + item.itemId + ": " +
+                item.itemName + " [" + item.rarity + "]\n";
         }
     }
 }
