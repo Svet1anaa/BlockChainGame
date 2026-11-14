@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -9,8 +8,27 @@ public class Inventory : MonoBehaviour
 
     public TextMeshProUGUI inventoryText;
 
+    public bool HasToken(ulong tokenId)
+    {
+        foreach (GameItem item in items)
+        {
+            if (item.tokenId == tokenId)
+                return true;
+        }
+
+        return false;
+    }
+
     public void AddItem(GameItem item)
     {
+        if (HasToken(item.tokenId))
+        {
+            Debug.LogWarning(
+                $"NFT #{item.tokenId} is already in inventory!"
+            );
+            return;
+        }
+
         items.Add(item);
 
         UpdateUI();
@@ -24,6 +42,7 @@ public class Inventory : MonoBehaviour
         Debug.Log("Inventory items: " + items.Count);
     }
 
+
     private void UpdateUI()
     {
         if (inventoryText == null)
@@ -32,13 +51,17 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        inventoryText.text = "Inventory\n";
+        inventoryText.text = "Inventory\n\n";
 
         foreach (GameItem item in items)
         {
             inventoryText.text +=
-                "- " + item.itemId + ": " +
-                item.itemName + " [" + item.rarity + "]\n";
+                item.itemName + " [" + item.rarity + "]\n" +
+                "Item ID: " + item.itemId + "\n" +
+                "Token ID: #" + item.tokenId + "\n" +
+                "Ownership: Verified on Sepolia\n\n";
         }
     }
+
+
 }

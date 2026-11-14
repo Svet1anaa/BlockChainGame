@@ -1,0 +1,9 @@
+Project: ChainQuest
+Network: Ethereum Sepolia
+Chain ID: 11155111
+
+Contract: ChainQuestNFT
+Contract Address: 0x255dc7cd7cf27c22b41997e4245c41149f859ee1
+Deployment Transaction Hash: 0x86746b2a13620082ea2d78f57d7d883073b49f48280dfbd8821e71d1f10f6bd1
+
+ABI File: ChainQuestNFT_ABI.json

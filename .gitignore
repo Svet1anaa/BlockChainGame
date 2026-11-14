@@ -107,3 +107,7 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Local Alchemy RPC configuration
+/Assets/StreamingAssets/blockchain-config.json
+/Assets/StreamingAssets/blockchain-config.json.meta
