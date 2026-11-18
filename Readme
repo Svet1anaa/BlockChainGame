@@ -1,0 +1,188 @@
+# ChainQuest — Blockchain-Integrated Unity Game
+
+ChainQuest is a Unity 3D game prototype that integrates blockchain technology into a traditional game inventory system.
+
+The project demonstrates how Non-Fungible Tokens (NFTs) can represent in-game items and how a Unity application can verify item ownership using an Ethereum smart contract.
+
+## Project Objectives
+
+- Develop a playable Unity game prototype with collectible items.
+- Deploy an ERC-721 NFT smart contract on the Ethereum Sepolia test network.
+- Integrate Unity with the blockchain using Nethereum.
+- Retrieve NFT metadata and verify ownership.
+- Allow players to collect items only when their wallet owns the corresponding NFT.
+- Demonstrate how transferring an NFT affects access to its in-game representation.
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Unity | Game development and user interface |
+| C# | Gameplay logic and blockchain integration |
+| Solidity | NFT smart contract development |
+| Ethereum Sepolia | Blockchain test network |
+| ERC-721 | NFT token standard |
+| Nethereum | Ethereum integration for .NET / Unity |
+| Alchemy | Ethereum RPC provider |
+| MetaMask | Wallet management and transaction signing |
+| Remix IDE | Smart contract deployment and interaction |
+| Git & GitHub | Version control |
+
+## System Architecture
+
+The application communicates with the Ethereum Sepolia network through Nethereum and an Alchemy RPC endpoint.
+
+```text
+Unity Game
+    |
+    v
+BlockchainManager.cs
+    |
+    v
+Nethereum (Web3)
+    |
+    v
+Alchemy RPC
+    |
+    v
+Ethereum Sepolia
+    |
+    v
+ChainQuestNFT Smart Contract
+```
+
+The game reads blockchain data and uses it to determine whether an item can be collected.
+
+The Unity application does not require MetaMask to remain open during normal gameplay because the implemented functionality uses read-only blockchain queries.
+
+## Smart Contract
+
+The ChainQuestNFT smart contract is deployed on the Ethereum Sepolia test network.
+
+**Contract address:**
+
+`0x255Dc7Cd7cF27C22b41997e4245c41149f859eE1`
+
+**Network:** Ethereum Sepolia
+
+**Chain ID:** 11155111
+
+The contract supports NFT ownership verification, NFT transfers, and retrieval of item metadata.
+
+Important functions include:
+
+- `ownerOf(tokenId)` — retrieves the current owner of an NFT.
+- `getItemDetails(tokenId)` — retrieves the item's name, rarity, and description.
+- `safeTransferFrom(from, to, tokenId)` — transfers an NFT between wallets.
+
+## In-Game NFT Items
+
+The prototype currently uses two NFT-backed items.
+
+| Token ID | Item | Rarity |
+|---|---|---|
+| 1 | Ancient Sword | Rare |
+| 2 | Magic Crystal | Epic |
+
+Each item has an associated token ID and metadata stored in the smart contract.
+
+When a player attempts to collect an item, the game checks the corresponding NFT's owner against the configured player wallet address.
+
+If ownership is verified, the item is added to the in-game inventory.
+
+If ownership does not match, collection is denied.
+
+## Implemented Features
+
+- Player movement and interaction with collectible objects.
+- Two collectible NFT-backed items.
+- Connection to Ethereum Sepolia.
+- Smart contract validation during initialization.
+- Retrieval of NFT ownership and metadata.
+- Ownership-based item collection.
+- Inventory interface displaying item information.
+- Blockchain connection status indicator.
+- Retry connection functionality for connection errors.
+- Visual representation of collectible items in the Unity scene.
+
+## Functional Testing
+
+The main experiment tested whether transferring an NFT between wallets changes the availability of its corresponding in-game item.
+
+| Test Scenario | Expected Result | Actual Result |
+|---|---|---|
+| Wallet A owns NFT #1 | Ancient Sword can be collected | Passed |
+| NFT #1 transferred to Wallet B | Wallet A cannot collect Ancient Sword | Passed |
+| Wallet A still owns NFT #2 | Magic Crystal can be collected | Passed |
+| NFT #1 transferred back to Wallet A | Ancient Sword becomes collectible again | Passed |
+| Item collected successfully | Item appears in inventory and disappears from scene | Passed |
+
+The experiment confirmed that access to the corresponding in-game item changes according to NFT ownership recorded on the blockchain.
+
+## Local Inventory vs Blockchain-Verified Inventory
+
+| Local Inventory | Blockchain-Verified Inventory |
+|---|---|
+| Ownership is managed by the game | NFT ownership is recorded on the blockchain |
+| Item data can be stored locally | NFT metadata can be retrieved from a smart contract |
+| Item transfers require game-specific logic | NFTs can be transferred using blockchain transactions |
+| Inventory checks can work offline | Ownership verification requires blockchain access |
+
+ChainQuest demonstrates a hybrid approach: Unity manages gameplay and the displayed inventory, while the blockchain provides an external source of ownership information.
+
+## Setup
+
+### Requirements
+
+- Unity with the project's required packages
+- Internet connection
+- Ethereum Sepolia RPC endpoint
+- Nethereum dependencies included in the Unity project
+
+### Configuration
+
+1. Clone the repository.
+2. Open the project in Unity.
+3. Create a configuration file at:
+
+   `Assets/StreamingAssets/blockchain-config.json`
+
+4. Add the following configuration:
+
+```json
+{
+  "rpcUrl": "https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY"
+}
+```
+
+5. Ensure the BlockchainManager references the deployed contract and the intended player wallet address.
+6. Open `Assets/Scenes/Main.unity`.
+7. Enter Play Mode.
+
+**Security note:** The RPC configuration file is excluded from version control. Do not commit private API keys, wallet private keys, or recovery phrases.
+
+## Limitations
+
+- The prototype operates on Ethereum Sepolia rather than Ethereum Mainnet.
+- NFT ownership verification requires an internet connection and a functioning RPC endpoint.
+- The game uses a configured player wallet address rather than an interactive wallet-login system.
+- Blockchain transactions are performed externally through wallet tools.
+- The in-game inventory is a gameplay representation of verified NFT ownership, not an independent on-chain inventory.
+- The prototype focuses on demonstrating blockchain integration rather than providing a complete commercial game.
+
+## Future Improvements
+
+- Interactive wallet connection.
+- NFT minting directly from Unity.
+- In-game NFT transfers.
+- Additional NFT-backed items and quests.
+- More comprehensive error-handling and performance testing.
+- Expanded gameplay and inventory functionality.
+
+## Conclusion
+
+ChainQuest demonstrates the integration of an ERC-721 smart contract with a Unity game.
+
+Functional testing confirmed that transferring an NFT to another wallet prevents the original wallet from collecting the corresponding in-game item. Transferring the NFT back restores access.
+
+The project illustrates how blockchain-based ownership verification can be incorporated into a conventional game inventory system.
